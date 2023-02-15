@@ -1,0 +1,6 @@
+debug: true
+
+server:
+  port: 9999
+  error:
+    include-message: always
