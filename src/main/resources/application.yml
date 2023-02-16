@@ -1,12 +1,26 @@
-debug: true
+debug: false
 server:
   port: 8080
   error:
     include-message: always
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: abc
-    password: abc
-    url: http://secretauce
+    username: ${DB_USERNAME}
+    password: ${DB_PW}
+    url: ${DB_URL}
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    defer-datasource-initialization: false
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
 

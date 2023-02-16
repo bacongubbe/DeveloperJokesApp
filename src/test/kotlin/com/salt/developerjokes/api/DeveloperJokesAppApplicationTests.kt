@@ -1,4 +1,4 @@
-package com.salt.developerjokes.api.DeveloperJokesApp
+package com.salt.developerjokes.api
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
