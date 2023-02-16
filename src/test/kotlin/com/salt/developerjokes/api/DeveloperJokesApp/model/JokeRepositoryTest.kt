@@ -1,5 +1,6 @@
 package com.salt.developerjokes.api.DeveloperJokesApp.model
 
+import com.salt.developerjokes.api.DeveloperJokesApp.model.repository.JokeRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

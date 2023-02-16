@@ -1,6 +1,7 @@
 package com.salt.developerjokes.api.DeveloperJokesApp.model
 
 import com.salt.developerjokes.api.DeveloperJokesApp.model.jokes.JokeDTO
+import com.salt.developerjokes.api.DeveloperJokesApp.model.repository.JokeRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

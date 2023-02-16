@@ -3,3 +3,10 @@ server:
   port: 8080
   error:
     include-message: always
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: abc
+    password: abc
+    url: http://secretauce
+
