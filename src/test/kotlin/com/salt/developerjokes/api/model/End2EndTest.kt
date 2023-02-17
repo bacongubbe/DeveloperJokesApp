@@ -100,7 +100,7 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
     client.put().uri(testUri).bodyValue(IncomingJokeDTO("Test", "en"))
       .exchange().expectStatus().isOk
     client.get().uri(testUri).exchange().expectStatus().isOk
-      .expectBody().jsonPath("text").isEqualTo("test")
+      .expectBody().jsonPath("text").isEqualTo("Test")
   }
 
   @Test
@@ -110,5 +110,17 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
 
     client.delete().uri(BASE_URL + exchange.headers.location)
       .exchange().expectStatus().isNoContent
+  }
+
+  @Test
+  fun deletingNonExistingJokeShouldReturn204(){
+    client.delete().uri("$BASE_URL/" + UUID.randomUUID().toString())
+      .exchange().expectStatus().isNoContent
+  }
+
+  @Test
+  fun shouldReturnBadRequestForTryingToDeleteInvalidUUID(){
+    client.delete().uri("$BASE_URL/000ABC").exchange()
+      .expectStatus().isBadRequest
   }
 }

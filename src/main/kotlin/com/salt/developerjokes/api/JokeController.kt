@@ -36,4 +36,15 @@ class JokeController(@Autowired val service: JokeService) {
     val newJoke = service.createNewJoke(joke)
     return ResponseEntity.created(URI.create("/" + newJoke.id)).build()
   }
+
+  @PutMapping("/{id}")
+  fun updateJoke(@RequestBody joke : IncomingJokeDTO, @PathVariable id : String) : ResponseEntity<JokeDTO>{
+    return ResponseEntity.ok(service.updateJoke(id, joke))
+  }
+
+  @DeleteMapping("/{id}")
+  fun deleteJoke(@PathVariable id : String) : ResponseEntity<Nothing>{
+    service.deleteJoke(id)
+    return ResponseEntity.noContent().build()
+  }
 }

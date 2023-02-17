@@ -24,4 +24,10 @@ class JokeService(@Autowired private val repo: JokeRepoDAO) {
   fun createNewJoke( joke : IncomingJokeDTO ) : JokeDTO {
     return repo.saveJoke(Joke(joke)).toDTO()
   }
+  fun updateJoke(id: String, newJoke: IncomingJokeDTO) : JokeDTO {
+    val oldJoke = repo.getJoke(id)
+      ?: throw ResponseStatusException(HttpStatusCode.valueOf(404), "No Joke found to update")
+    return repo.saveJoke(Joke(oldJoke, newJoke)).toDTO()
+  }
+  fun deleteJoke(id: String) = repo.deleteJoke(id)
 }
