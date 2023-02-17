@@ -32,7 +32,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: "eu-north-1"
       - name: Upload to bucket
-        run: aws s3 cp App.zip s3://elasticbeanstalk-us-east-1-727221033908/
+        run: aws s3 cp App.zip s3://elasticbeanstalk-eu-north-1-727221033908/
       - name: Create new ElasticBeanstalk Application Version
         run: |
           aws elasticbeanstalk create-application-version \
