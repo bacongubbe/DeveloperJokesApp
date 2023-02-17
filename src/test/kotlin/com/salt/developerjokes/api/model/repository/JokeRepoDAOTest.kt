@@ -2,19 +2,17 @@ package com.salt.developerjokes.api.model.repository
 
 import com.salt.developerjokes.api.model.jokes.Joke
 import com.salt.developerjokes.api.repository.JokeRepoDAO
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Order
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.DirtiesContext
 import java.util.*
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class JokeRepoDAOTest(@Autowired val repo : JokeRepoDAO) {
-
 
   @Test
   @Order(0)
