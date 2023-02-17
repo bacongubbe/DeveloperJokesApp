@@ -9,40 +9,40 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Set up JDK and Gradle
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-    - name: Run tests
-      run: ./gradlew test
-    - name: Build jar
-      if: success()
-      run: ./gradlew bootJar
-    - name: Zip jar
-      if: success()
-      run: zip App.zip build/libs/DeveloperJokesApp-0.0.1-SNAPSHOT.jar
-    - name: Upload zip
-      if: success()
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-    - name: Upload to bucket
-      run: aws s3 cp App.zip s3://elasticbeanstalk-us-east-1-727221033908/
-    - name: Deploy to Elastic Beanstalk
-      if: success()
-      uses: einaregilsson/beanstalk-deploy@v16
-      with:
-        aws_access_key: ${{ secrets.ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.SECRET_ACCESS_KEY }}
-        application_name: Developer Jokes
-        environment_name: Developerjokes-env
-        version_label: ${{ github.sha }}
-        region: us-east-1
-        deployment_package: App
-        deployment_source: s3
-        artifact_location: s3://elasticbeanstalk-us-east-1-727221033908/App.zip
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up JDK and Gradle
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "adopt"
+      - name: Run tests
+        run: ./gradlew test
+      - name: Build jar
+        if: success()
+        run: ./gradlew bootJar
+      - name: Zip jar
+        if: success()
+        run: zip App.zip build/libs/DeveloperJokesApp-0.0.1-SNAPSHOT.jar
+      - name: Configure AWS Credentials
+        if: sucess()
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+      - name: Upload to bucket
+        run: aws s3 cp App.zip s3://elasticbeanstalk-us-east-1-727221033908/
+      - name: Deploy to Elastic Beanstalk
+        if: success()
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{ secrets.ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.SECRET_ACCESS_KEY }}
+          application_name: Developer Jokes
+          environment_name: Developerjokes-env
+          version_label: ${{ github.sha }}
+          region: us-east-1
+          deployment_package: App
+          deployment_source: s3
+          artifact_location: s3://elasticbeanstalk-us-east-1-727221033908/App.zip
