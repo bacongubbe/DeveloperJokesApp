@@ -36,7 +36,7 @@ jobs:
       - name: Create new ElasticBeanstalk Application Version
         run: |
           aws elasticbeanstalk create-application-version \
-          --application-name DeveloperJokes \
+          --application-name Developer Jokes \
           --source-bundle S3Bucket="elasticbeanstalk-us-east-1-727221033908",S3Key="App.zip" \
           --version-label "ver-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
