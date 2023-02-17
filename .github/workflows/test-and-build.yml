@@ -33,16 +33,14 @@ jobs:
           aws-region: "us-east-1"
       - name: Upload to bucket
         run: aws s3 cp App.zip s3://elasticbeanstalk-us-east-1-727221033908/
+      - name: Create new ElasticBeanstalk Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name DeveloperJokes \
+          --source-bundle S3Bucket="elasticbeanstalk-us-east-1-727221033908",S3Key="App.zip" \
+          --version-label "ver-${{ github.sha }}" \
+          --description "commit-sha-${{ github.sha }}"
       - name: Deploy to Elastic Beanstalk
         if: success()
-        uses: einaregilsson/beanstalk-deploy@v16
-        with:
-          aws_access_key: ${{ secrets.ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.SECRET_ACCESS_KEY }}
-          application_name: Developer Jokes
-          environment_name: Developerjokes-env
-          version_label: ${{ github.sha }}
-          region: us-east-1
-          deployment_package: App
-          deployment_source: s3
-          artifact_location: s3://elasticbeanstalk-us-east-1-727221033908/App.zip
+        run: aws elasticbeanstalk update-environment --environment-name Developerjokes-env --version-label "ver-${{ github.sha }}"
+
