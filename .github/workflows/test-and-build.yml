@@ -25,7 +25,7 @@ jobs:
         if: success()
         run: zip App.zip build/libs/DeveloperJokesApp-0.0.1-SNAPSHOT.jar
       - name: Configure AWS Credentials
-        if: sucess()
+        if: success()
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
