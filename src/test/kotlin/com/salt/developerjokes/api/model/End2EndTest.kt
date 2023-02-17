@@ -11,6 +11,9 @@ import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.util.*
@@ -44,7 +47,6 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
     repo.deleteJoke("1dee7653-1adf-4be4-8c5c-ec74b563b0eb")
     repo.deleteJoke("b55a8632-bb9e-4c9d-9581-8b474fce8878")
     repo.deleteJoke("19b0f9ef-c09b-4cbd-a604-07dffdc16d5c")
-    repo.deleteJoke("b55a8632-bb9e-4c9d-9581-8b474fce8879")
   }
 
   @Test
@@ -79,13 +81,12 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
       .expectStatus().is4xxClientError
       .expectBody().jsonPath("message").isEqualTo("Invalid ID")
   }
-
   @Test
   fun shouldReturnLocationHeaderForPost(){
-    val id = "b55a8632-bb9e-4c9d-9581-8b474fce8879"
-    client.post().uri(BASE_URL).bodyValue(IncomingJokeDTO("test",id,"en"))
-      .exchange()
-      .expectStatus().isCreated
-      .expectHeader().location("/api/jokes/$id")
+    val exchange = TestRestTemplate().restTemplate.exchange(BASE_URL, HttpMethod.POST,
+      HttpEntity(IncomingJokeDTO("test", "en")), TestRestTemplate::class.java)
+
+    client.get().uri(BASE_URL + exchange.headers.location.toString()).exchange().expectStatus().isOk
+      .expectBody().jsonPath("text").isEqualTo("test")
   }
 }

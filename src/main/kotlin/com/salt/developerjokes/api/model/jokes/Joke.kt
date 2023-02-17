@@ -19,7 +19,7 @@ class Joke(
   val language: String
 ) {
 
-  constructor(joke : IncomingJokeDTO) : this(joke.text, joke.id.toUUID(), joke.language)
+  constructor(joke : IncomingJokeDTO) : this(joke.text,UUID.randomUUID(), joke.language)
 
   fun toDTO(): JokeDTO = JokeDTO(this.text, this.id.toString())
   override fun equals(other: Any?): Boolean {

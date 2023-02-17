@@ -12,8 +12,6 @@ import java.net.URI
 @RequestMapping("/api/jokes")
 class JokeController(@Autowired val service: JokeService) {
 
-  private final val BASE_URL = "/api/jokes"
-
   @GetMapping
   fun getAllJokes(@RequestParam(required = false) language: String?) : ResponseEntity<JokeListDTO>{
     if (language == null){
@@ -37,6 +35,6 @@ class JokeController(@Autowired val service: JokeService) {
   @PostMapping
   fun addJoke(@RequestBody joke : IncomingJokeDTO) : ResponseEntity<Nothing> {
     val newJoke = service.createNewJoke(joke)
-    return ResponseEntity.created(URI.create("$BASE_URL/" + newJoke.id)).build()
+    return ResponseEntity.created(URI.create("/" + newJoke.id)).build()
   }
 }
