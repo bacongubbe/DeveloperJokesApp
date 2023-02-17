@@ -4,14 +4,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import java.util.*
-
-private fun String?.toUUID() : UUID {
-  if (this == null || this == ""){
-    return UUID.randomUUID()
-  }
-  return UUID.fromString(this)
-}
-
 @Entity
 class Joke(
   val text: String,

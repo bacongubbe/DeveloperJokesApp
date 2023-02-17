@@ -83,10 +83,32 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
   }
   @Test
   fun shouldReturnLocationHeaderForPost(){
-    val exchange = TestRestTemplate().restTemplate.exchange(BASE_URL, HttpMethod.POST,
+    val exchange = TestRestTemplate().exchange(BASE_URL, HttpMethod.POST,
       HttpEntity(IncomingJokeDTO("test", "en")), TestRestTemplate::class.java)
 
     client.get().uri(BASE_URL + exchange.headers.location.toString()).exchange().expectStatus().isOk
       .expectBody().jsonPath("text").isEqualTo("test")
+  }
+
+  @Test
+  fun shouldBeAbleToUpdateJoke(){
+    val testUri = "$BASE_URL/7eba7875-c2fc-42d3-a920-559bfc83f2bf"
+
+    client.get().uri(testUri)
+      .exchange().expectBody().jsonPath("text")
+      .isEqualTo("Why are Assembly programmers always soaking wet? They work below C-level!")
+    client.put().uri(testUri).bodyValue(IncomingJokeDTO("Test", "en"))
+      .exchange().expectStatus().isOk
+    client.get().uri(testUri).exchange().expectStatus().isOk
+      .expectBody().jsonPath("text").isEqualTo("test")
+  }
+
+  @Test
+  fun shouldBeAbleToDeleteJoke() {
+    val exchange = TestRestTemplate().exchange(BASE_URL, HttpMethod.POST,
+      HttpEntity(IncomingJokeDTO("ToBeDeleted", "en")), TestRestTemplate::class.java)
+
+    client.delete().uri(BASE_URL + exchange.headers.location)
+      .exchange().expectStatus().isNoContent
   }
 }

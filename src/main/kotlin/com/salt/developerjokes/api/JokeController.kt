@@ -14,16 +14,15 @@ class JokeController(@Autowired val service: JokeService) {
 
   @GetMapping
   fun getAllJokes(@RequestParam(required = false) language: String?) : ResponseEntity<JokeListDTO>{
-    if (language == null){
+    if (language == null || language == ""){
       return ResponseEntity.ok(service.getAllJokes())
     }
     return ResponseEntity.ok(service.getAllJokes(language))
   }
 
-
   @GetMapping("/random")
   fun getRandomJoke(@RequestParam language : String?) : ResponseEntity<JokeDTO> {
-    if (language == null){
+    if (language == null || language == ""){
       return ResponseEntity.ok(service.getRandomJoke())
     }
     return ResponseEntity.ok(service.getRandomJoke(language))
