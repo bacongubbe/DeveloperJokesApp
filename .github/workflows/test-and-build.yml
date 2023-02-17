@@ -21,9 +21,12 @@ jobs:
       - name: Build jar
         if: success()
         run: ./gradlew bootJar
-      - name: Zip jar
+      - name: Upload Jar
         if: success()
-        run: zip App.zip build/libs/DeveloperJokesApp-0.0.1-SNAPSHOT.jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: DeveloperJokes.jar
+          path: build/libs/DeveloperJokesApp-0.0.1-SNAPSHOT.jar
       - name: Configure AWS Credentials
         if: success()
         uses: aws-actions/configure-aws-credentials@v1
@@ -31,13 +34,17 @@ jobs:
           aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: "eu-north-1"
+      - name: Download Jar file
+        uses: actions/download-artifact@v2
+        with:
+          name: DeveloperJokes.jar
       - name: Upload to bucket
-        run: aws s3 cp App.zip s3://elasticbeanstalk-eu-north-1-727221033908/
+        run: aws s3 cp DeveloperJokes.jar s3://elasticbeanstalk-eu-north-1-727221033908/
       - name: Create new ElasticBeanstalk Application Version
         run: |
           aws elasticbeanstalk create-application-version \
           --application-name DeveloperJokes \
-          --source-bundle S3Bucket="elasticbeanstalk-eu-north-1-727221033908",S3Key="App.zip" \
+          --source-bundle S3Bucket="elasticbeanstalk-eu-north-1-727221033908",S3Key="DeveloperJokes.jar" \
           --version-label "ver-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
       - name: Deploy to Elastic Beanstalk
