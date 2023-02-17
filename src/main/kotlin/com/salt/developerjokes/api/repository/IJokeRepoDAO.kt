@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository
 import java.util.*
 
 interface IJokeRepoDAO : CrudRepository<Joke, UUID> {
-  fun findAllByLanguage(lang : String) : List<Joke>
+  fun findAllByLanguage(lang: String): List<Joke>
 }

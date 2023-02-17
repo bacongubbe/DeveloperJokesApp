@@ -4,6 +4,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import java.util.*
+
 @Entity
 class Joke(
   val text: String,
@@ -11,8 +12,8 @@ class Joke(
   val language: String
 ) {
 
-  constructor(joke : IncomingJokeDTO) : this(joke.text, UUID.randomUUID(), joke.language)
-  constructor(oldJoke : Joke, newJoke : IncomingJokeDTO) : this(newJoke.text, oldJoke.id, newJoke.language)
+  constructor(joke: IncomingJokeDTO) : this(joke.text, UUID.randomUUID(), joke.language)
+  constructor(oldJoke: Joke, newJoke: IncomingJokeDTO) : this(newJoke.text, oldJoke.id, newJoke.language)
 
   fun toDTO(): JokeDTO = JokeDTO(this.text, this.id.toString())
   override fun equals(other: Any?): Boolean {
