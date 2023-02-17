@@ -31,15 +31,16 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
+    - name: Upload to bucket
       run: aws s3 cp App.zip s3://elasticbeanstalk-us-east-1-727221033908/
     - name: Deploy to Elastic Beanstalk
       if: success()
       uses: einaregilsson/beanstalk-deploy@v16
       with:
-        aws_access_key: ${{ secrets.ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.SECRET_ACCESS_KEY }}
-        application_name: Developer Jokes
-        environment_name: Developerjokes-env
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: <Your Elastic Beanstalk Application Name>
+        environment_name: <Your Elastic Beanstalk Environment Name>
         version_label: ${{ github.sha }}
         region: us-east-1
         deployment_package: App
