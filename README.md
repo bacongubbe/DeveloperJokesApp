@@ -7,9 +7,11 @@ open for public use.
 Due to changes in other API's, or by the people represented acting up. We created a new API service that just returns
 simple jokes.
 
-## Technology
-
-The application is built with Kotlin using Spring Boot and Gradle build tools. With PostgreSQL for the DB.
+## Stack
+[![Kotlin][Kotlin_logo]][Kotlin_url]
+[![Spring][Spring_logo]][Spring_url]
+[![PostgreSQL][PostgreSQL_logo]][PostgreS_url]
+[![AWS][AWS_logo]][AWS_url]
 
 ## How to use
 
@@ -34,8 +36,29 @@ format:
 ```
 This will create a new joke and assign a new random UUID, you'll get the id in a response 201 location header.
 
+### Deleting a joke
+
+In order to delete a joke, simply make a `DELETE` request to `api/jokes/{id}`.
+
+### Updating a joke
+
+In order to update a Joke, send a `PUT` request to `api/jokes/{id}` with the updated version of the joke in the body (like te `POST` request) and the joke will be updated. 
+Note that `"language"` has to be present. 
 
 ## Roadmap
 
 Will add more stuff as we go along. 
 
+
+[//]: # (Variables)
+[AWS_logo]: https://img.shields.io/badge/aws-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white
+[AWS_url]: https://aws.amazon.com/
+
+[Kotlin_logo]: https://img.shields.io/badge/kotlin-A020F0?style=for-the-badge&logo=kotlin&logoColor=white
+[Kotlin_url]: https://kotlinlang.org/
+
+[Spring_logo]: https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white
+[Spring_url]: https://spring.io/projects/spring-boot
+
+[PostgreSQL_logo]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+[PostgreS_url]: https://www.postgresql.org/
