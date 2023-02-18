@@ -24,3 +24,6 @@ logging:
         boot:
           autoconfigure: ERROR
 
+admin:
+  user: ${ADMIN_USER}
+  password: ${ADMIN_PASSWORD}

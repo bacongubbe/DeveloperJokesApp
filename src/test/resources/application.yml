@@ -17,9 +17,17 @@ spring:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
 logging:
   level:
     org:
       springframework:
         boot:
           autoconfigure: ERROR
+
+admin:
+  user: "testAdmin"
+  password: "secret"

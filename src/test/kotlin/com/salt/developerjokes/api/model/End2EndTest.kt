@@ -15,14 +15,23 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.util.*
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}") val DEFAULT_PORT : String, @Autowired val repo : JokeRepoDAO) {
+@ActiveProfiles("test")
+class End2EndTest(
+  @Value("\${server.port}") val DEFAULT_PORT : String,
+  @Autowired val repo : JokeRepoDAO) {
 
   final val BASE_URL = "http://localhost:$DEFAULT_PORT/api/jokes"
+  @Autowired
+  lateinit var client: WebTestClient
+
+  @Autowired
+  lateinit var restTemplate: TestRestTemplate
 
   @Test
   fun shouldConfigurePort(){
@@ -83,7 +92,7 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
   }
   @Test
   fun shouldReturnLocationHeaderForPost(){
-    val exchange = TestRestTemplate().exchange(BASE_URL, HttpMethod.POST,
+    val exchange = restTemplate.exchange(BASE_URL, HttpMethod.POST,
       HttpEntity(IncomingJokeDTO("test", "en")), TestRestTemplate::class.java)
 
     client.get().uri(BASE_URL + exchange.headers.location.toString()).exchange().expectStatus().isOk
@@ -105,7 +114,7 @@ class End2EndTest(@Autowired val client : WebTestClient, @Value("\${server.port}
 
   @Test
   fun shouldBeAbleToDeleteJoke() {
-    val exchange = TestRestTemplate().exchange(BASE_URL, HttpMethod.POST,
+    val exchange = restTemplate.exchange(BASE_URL, HttpMethod.POST,
       HttpEntity(IncomingJokeDTO("ToBeDeleted", "en")), TestRestTemplate::class.java)
 
     client.delete().uri(BASE_URL + exchange.headers.location)
