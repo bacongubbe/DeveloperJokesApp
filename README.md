@@ -1,4 +1,5 @@
 # DeveloperJokesApp
+[![codecov](https://codecov.io/gh/bacongubbe/DeveloperJokesApp/branch/main/graph/badge.svg)](https://codecov.io/gh/bacongubbe/DeveloperJokesApp)
 
 ## Background
 
@@ -13,7 +14,7 @@ simple jokes.
 [![PostgreSQL][PostgreSQL_logo]][PostgreS_url]
 [![AWS][AWS_logo]][AWS_url]
 
-## How to use
+## How to use (public)
 
 Simply call the endpoint `{where ever it's running}/api/jokes/random` with a GET, and you'll get a random joke.
 
@@ -22,6 +23,11 @@ Simply call the endpoint `{where ever it's running}/api/jokes/random` with a GET
 
 You can also use the `language` param on `/api/jokes/random` and `/api/jokes`, and it will filter the jokes by language.
 > example: `/api/jokes/random?language=se` will return a random joke in Swedish!
+
+## How to use (admin)
+
+In order to perform any operations except from GETting jokes. You'll need to authenticate yourself. Do this by adding basic authentication 
+in the API tool you're using. Reach out to me if you're not aware of the admin details. 
 
 ### Adding a joke
 
@@ -47,7 +53,8 @@ Note that `"language"` has to be present.
 
 ## Roadmap
 
-Will add more stuff as we go along. 
+Upcoming is a swagger UI that allows for easier access, and hopefully to be able to set up a good login page
+that will work. (except for `/login`).
 
 
 [//]: # (Variables)
