@@ -21,6 +21,8 @@ jobs:
       - name: Build jar
         if: success()
         run: ./gradlew bootJar
+      - name: Get Coverage
+        uses: codecov/codecov-action@v3.1.1
       - name: Configure AWS Credentials
         if: success()
         uses: aws-actions/configure-aws-credentials@v1
