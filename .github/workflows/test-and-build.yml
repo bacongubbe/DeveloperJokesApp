@@ -3,7 +3,10 @@ name: Gradle Spring Boot Build and Deploy
 on:
   push:
     branches:
-      - main
+      - main  
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/**'
 
 jobs:
   build-and-deploy:
