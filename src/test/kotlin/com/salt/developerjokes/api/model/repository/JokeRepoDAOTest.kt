@@ -106,5 +106,15 @@ class JokeRepoDAOTest(@Autowired val repo : JokeRepoDAO) {
     assertEquals(4, repo.getAllJokes().size)
   }
 
+  @Test
+  @Order(11)
+  fun addingSameJokeTwiceShouldNotAddNewJoke(){
+    assertEquals(4, repo.getAllJokes().size)
+    val joke1 = repo.getRandomJoke()
+    val joke2 = joke1?.id?.toString()?.let { repo.getJoke(it) }
+    joke1?.let { repo.saveJoke(joke2!!) }
+    assertEquals(4, repo.getAllJokes().size)
+  }
+
 }
 

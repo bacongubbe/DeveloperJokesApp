@@ -3,11 +3,8 @@ package com.salt.developerjokes.api.model
 import com.salt.developerjokes.api.model.jokes.IncomingJokeDTO
 import com.salt.developerjokes.api.model.jokes.Joke
 import com.salt.developerjokes.api.repository.JokeRepoDAO
-import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
@@ -22,6 +19,7 @@ import java.util.*
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class End2EndTest(
   @Value("\${server.port}") val DEFAULT_PORT : String,
   @Autowired val repo : JokeRepoDAO) {
@@ -59,6 +57,7 @@ class End2EndTest(
   }
 
   @Test
+  @Order(0)
   fun shouldGetRandomJoke(){
     client.get().uri("$BASE_URL/random").accept(MediaType.APPLICATION_JSON)
       .exchange().expectStatus().isOk
@@ -66,6 +65,7 @@ class End2EndTest(
   }
 
   @Test
+  @Order(1)
   fun shouldGetSpecificJoke(){
     client.get().uri("$BASE_URL/1dee7653-1adf-4be4-8c5c-ec74b563b0eb").accept(MediaType.APPLICATION_JSON)
       .exchange().expectStatus().isOk
@@ -74,6 +74,7 @@ class End2EndTest(
   }
 
   @Test
+  @Order(2)
   fun shouldReturn404WithMessageForNonExistingId(){
     client.get().uri("$BASE_URL/1dee7653-1adf-4be4-8c5c-ec74b563b0ea")
       .accept(MediaType.APPLICATION_JSON)
@@ -83,6 +84,7 @@ class End2EndTest(
   }
 
   @Test
+  @Order(3)
   fun shouldReturn400WithMessageForInvalidId(){
     client.get().uri("$BASE_URL/000")
       .accept(MediaType.APPLICATION_JSON)
@@ -91,6 +93,7 @@ class End2EndTest(
       .expectBody().jsonPath("message").isEqualTo("Invalid ID")
   }
   @Test
+  @Order(4)
   fun shouldReturnLocationHeaderForPost(){
     val exchange = restTemplate.exchange(BASE_URL, HttpMethod.POST,
       HttpEntity(IncomingJokeDTO("test", "en")), TestRestTemplate::class.java)
@@ -100,6 +103,7 @@ class End2EndTest(
   }
 
   @Test
+  @Order(5)
   fun shouldBeAbleToUpdateJoke(){
     val testUri = "$BASE_URL/7eba7875-c2fc-42d3-a920-559bfc83f2bf"
 
@@ -113,6 +117,7 @@ class End2EndTest(
   }
 
   @Test
+  @Order(6)
   fun shouldBeAbleToDeleteJoke() {
     val exchange = restTemplate.exchange(BASE_URL, HttpMethod.POST,
       HttpEntity(IncomingJokeDTO("ToBeDeleted", "en")), TestRestTemplate::class.java)
@@ -122,14 +127,55 @@ class End2EndTest(
   }
 
   @Test
+  @Order(7)
   fun deletingNonExistingJokeShouldReturn204(){
     client.delete().uri("$BASE_URL/" + UUID.randomUUID().toString())
       .exchange().expectStatus().isNoContent
   }
 
   @Test
+  @Order(8)
   fun shouldReturnBadRequestForTryingToDeleteInvalidUUID(){
     client.delete().uri("$BASE_URL/000ABC").exchange()
       .expectStatus().isBadRequest
+  }
+
+  @Test
+  @Order(9)
+  fun shouldGetAllJokes(){
+   client.get().uri(BASE_URL).exchange()
+     .expectBody().jsonPath("result").value<List<String>> { assertEquals( it.size, 5) }
+  }
+
+  @Test
+  @Order(10)
+  fun shouldGetAllJokesForLanguageSE(){
+    client.get().uri("$BASE_URL?language=se").exchange()
+      .expectBody().jsonPath("result").value<List<String>>{ assertEquals(it.size, 2) }
+  }
+
+  @Test
+  @Order(11)
+  fun shouldReturnEmptyListForNonExistingLanguage(){
+    client.get().uri("$BASE_URL?language=fake").exchange()
+      .expectStatus().isOk.expectBody().jsonPath("result").value<List<String>> { assertEquals(it.size,0) }
+  }
+
+  @Test
+  @Order(12)
+  fun shouldGetRandomJokeForLanguage(){
+    val list = mutableSetOf<String>()
+    repeat(10) { client.get().uri("$BASE_URL/random?language=se").exchange()
+      .expectBody().jsonPath("text").value<String> {  list.add(it) } }
+
+    assertEquals(list.size, 2)
+  }
+
+  @Test
+  @Order(13)
+  fun shouldThrowIfNoJokesAvailableForLanguage(){
+    client.get().uri("$BASE_URL/random?language=fake").exchange()
+      .expectStatus().isNotFound
+      .expectBody().jsonPath("message").isEqualTo("No Jokes for that language")
   }
 }

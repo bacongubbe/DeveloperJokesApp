@@ -32,6 +32,7 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
   testImplementation("org.springframework.security:spring-security-test")
+  testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
   runtimeOnly("org.postgresql:postgresql")
   runtimeOnly("com.h2database:h2")
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
@@ -68,7 +69,7 @@ tasks.withType<JacocoReport> {
   afterEvaluate {
     classDirectories.setFrom(files(classDirectories.files.map {
       fileTree(it).apply {
-        exclude( "**/DeveloperJokesApplication**")
+        exclude( "**/DeveloperJokesApplication**", "**/*DTO**", "**/*Config*")
       }
     }))
   }
