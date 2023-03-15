@@ -29,7 +29,7 @@ You can also use the `language` param on `/api/jokes/random` and `/api/jokes`, a
 ## How to use (admin)
 
 In order to perform any operations except from GETting jokes. You'll need to authenticate yourself. Do this by adding basic authentication 
-in the API tool you're using. Reach out to me if you're not aware of the admin details. 
+in the API tool you're using. Reach out to me if you're not aware of the admin details. You can do it either a API tool like [Postman](https://www.postman.com/), or by using the console in your browser. 
 
 ### Adding a joke
 
@@ -55,8 +55,8 @@ Note that `"language"` has to be present.
 
 ## Roadmap
 
-Upcoming is a swagger UI that allows for easier access, and hopefully to be able to set up a good login page
-that will work. (except for `/login`).
+Swagger is not applicable since there's no current version that supports this application. 
+Upcoming is a UI to actually interact with the backend for administration. 
 
 
 [//]: # (Variables)
