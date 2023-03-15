@@ -1,6 +1,8 @@
 # DeveloperJokesApp
 [![codecov](https://codecov.io/gh/bacongubbe/DeveloperJokesApp/branch/main/graph/badge.svg)](https://codecov.io/gh/bacongubbe/DeveloperJokesApp)
 
+See the deployed API [here!](http://developerjokes-env.eba-qjmd8aum.eu-north-1.elasticbeanstalk.com/api/jokes/random) 
+
 ## Background
 
 In order for new developers to learn how to use various API's, we've previously worked with various open API's that are
