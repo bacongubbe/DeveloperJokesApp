@@ -1,7 +1,7 @@
 # DeveloperJokesApp
 [![codecov](https://codecov.io/gh/bacongubbe/DeveloperJokesApp/branch/main/graph/badge.svg)](https://codecov.io/gh/bacongubbe/DeveloperJokesApp)
 
-See the deployed API [here!](http://developerjokes-env.eba-qjmd8aum.eu-north-1.elasticbeanstalk.com/api/jokes/random) 
+See the deployed API [here!](https://bacongubbe.dev/api/jokes/random) 
 
 ## Background
 
