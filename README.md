@@ -3,6 +3,9 @@
 
 See the deployed API [here!](https://jokes.bacongubbe.dev/api/jokes/random) 
 
+## Disclaimer
+The development and maintanace of the application has been moved over to / adopted by @appliedtechnology in a private repository. 
+
 ## Background
 
 In order for new developers to learn how to use various API's, we've previously worked with various open API's that are
